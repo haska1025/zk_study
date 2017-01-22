@@ -8,19 +8,25 @@ public class Broker {
     // Zookeeper wrapper
     private ZKUtils __zkutil = new ZKUtils();
     private Controller __controller = new Controller(this);
+    private int __brokerid;
+    private String __zkstr;
+    
+    public Broker(String zkstr)
+    {
+    	__zkstr = zkstr;
+    }
     
     public void startup()
     {
-    	__zkutil.init("");
+    	__zkutil.init(__zkstr);
     	__controller.startup();
     }
-    
-    ZKUtils zkutil()
-    {
-    	return __zkutil;
-    }
-    
+
     public void addToInnerBroker(Node n){
     	__inner_brokers.add(n);
     }
+    
+    ZKUtils zkutil(){return __zkutil;}    
+    public int getBrokerId(){return __brokerid;}
+    public void setBrokerId(int id){__brokerid = id;}
 }

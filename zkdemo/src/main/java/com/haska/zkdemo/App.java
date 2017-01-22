@@ -9,7 +9,7 @@ public class App
     public static void main( String[] args )
     {
         System.out.println( "Hello zkdemo!" );
-        ZKUtils zkutils = new ZKUtils();
-        zkutils.init("192.168.32.107:2181/tang");
+        Broker broker = new Broker("192.168.32.107:2181/tang");
+        broker.startup();
     }
 }

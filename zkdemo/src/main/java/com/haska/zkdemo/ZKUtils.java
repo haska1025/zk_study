@@ -3,6 +3,7 @@ package com.haska.zkdemo;
 import org.I0Itec.zkclient.*;
 import java.util.Set;
 import java.util.HashSet;
+import org.codehaus.jackson.annotate.*;
 /**
  * Support all functions about zookeeper.
  * 1. Elect leader for cluster
@@ -26,7 +27,7 @@ public class ZKUtils {
     private Set<String> __zkpath = new HashSet<>();
     
     public ZKUtils(){    	
-    	__zkpath.add(CONTROLLER_PATH);
+    	//__zkpath.add(CONTROLLER_PATH);
     	__zkpath.add(BROKER_IDS_PATH);
     	__zkpath.add(CONFERENCE_PATH);
     }
@@ -48,4 +49,30 @@ public class ZKUtils {
     {
     	return __zkcli;
     }
+}
+
+/***************** All zookeeper data structure *************************/
+@JsonIgnoreProperties
+class LeaderElectData
+{
+	int version;
+	int brokerid;
+	long timestamp;
+	
+	LeaderElectData(int v, int id, long ts)
+	{
+		version=v;
+		brokerid=id;
+		timestamp=ts;
+	}
+	/*
+	int getVersion(){return version;}
+	void setVersion(int v){version = v;}
+	
+	int getBrokerid(){return brokerid;}
+	void setBrokerid(int id){brokerid = id;}
+	
+	long getTimestamp(){return timestamp;}
+	void setTimestamp(long ts){timestamp = ts;}
+	*/
 }
