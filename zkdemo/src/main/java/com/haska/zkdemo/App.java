@@ -11,5 +11,8 @@ public class App
         System.out.println( "Hello zkdemo!" );
         Broker broker = new Broker("192.168.32.107:2181/tang");
         broker.startup();
+        
+        Producer producer = new Producer("joinconf", false);
+        producer.start();
     }
 }
