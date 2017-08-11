@@ -1,4 +1,4 @@
-package com.haska.network;
+package com.haska.network.impl;
 
 import java.io.IOException;
 
@@ -10,10 +10,12 @@ public class ThreadPool {
     private static ThreadPool instance_ = new ThreadPool();
     
     private IOThread[] thrs_;
-    
+    private int thr_num;
+    private int cur_index = 0;
     private ThreadPool(){}
     
     public void initialize(int thr_num){
+    	this.thr_num = thr_num;
     	thrs_ = new IOThread[thr_num];
 		try {
 			for (int i = 0; i < thr_num; i++) {
@@ -35,6 +37,8 @@ public class ThreadPool {
     }
     
     public IOThread getIOThread(){
-    	return thrs_[0];
+    	IOThread thr = thrs_[cur_index++];
+    	cur_index %= thr_num;
+    	return thr;
     }
 }

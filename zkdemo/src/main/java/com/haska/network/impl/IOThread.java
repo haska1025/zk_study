@@ -1,10 +1,12 @@
-package com.haska.network;
+package com.haska.network.impl;
 
 import java.io.IOException;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.haska.network.EventObject;
 
 public class IOThread {
 	private static final Logger LOG = LoggerFactory.getLogger(IOThread.class);
@@ -42,7 +44,7 @@ public class IOThread {
     void dispatchListeners(){
     	while (!listener.isEmpty()){
     		EventObject e = listener.poll();
-    		e.listener.process(e);
+    		e.listen().process(e);
     	}
     }
     class Worker extends Thread{

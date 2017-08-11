@@ -1,4 +1,4 @@
-package com.haska.network;
+package com.haska.network.impl;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -10,6 +10,10 @@ import java.nio.channels.spi.AbstractSelectableChannel;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.haska.network.EventObject;
+import com.haska.network.IOAdapter;
+import com.haska.network.Listener;
 
 public class Acceptor extends SocketHandler implements Listener{
     private static final Logger LOG = LoggerFactory.getLogger(Acceptor.class);
@@ -69,8 +73,8 @@ public class Acceptor extends SocketHandler implements Listener{
 			IOAdapter ioadp = io_adp_.onAccept();
 			SocketHandler sh = new TcpHandler(io_thr(), ioadp);
 			asc.configureBlocking(false);
-			sh.Accept(asc);
-			
+			sh.accept(asc);
+			ioadp.setSocketHandler(sh);
 			LOG.debug("Accept a new connection");
 		} catch (IOException e) {
             LOG.warn("Handle accept msg failed", e);
@@ -87,8 +91,8 @@ public class Acceptor extends SocketHandler implements Listener{
 	@Override
 	public void process(EventObject eo) {
 		try {
-			if (eo.type.equals("plug")) {
-				register(SelectionKey.OP_ACCEPT);
+			if (eo.type().equals("plug")) {
+				registerEvent(SelectionKey.OP_ACCEPT);
 				LOG.info("Register accept event success");
 			}
 		} catch (ClosedChannelException e) {

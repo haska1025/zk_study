@@ -12,5 +12,6 @@ public class EventObject {
     	this.listener = l;
     }
     
+    public Listener listen(){return listener;}
     public String type(){return type;}
 }
