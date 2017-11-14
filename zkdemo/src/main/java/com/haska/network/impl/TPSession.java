@@ -8,9 +8,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.haska.network.AcceptorCallback;
-import com.haska.network.Command;
 import com.haska.network.Session;
 import com.haska.network.SessionCallback;
+import com.haska.tpbuff.Command;
 
 public class TPSession extends AbstractAdapter implements Session{
 	private static final Logger LOG = LoggerFactory.getLogger(TPSession.class);

@@ -191,7 +191,7 @@ public class AppTest
             	
             }));
             accept.start(8000);
-            Thread.sleep(60*1000);
+            Thread.sleep(5*1000);
             ThreadPool.getInstance().destroy();
             System.out.println("Test case exit");
         }catch(IOException e){
