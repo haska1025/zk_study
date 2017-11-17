@@ -19,29 +19,21 @@
 package com.haska.tpbuff;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.TreeMap;
 
 /**
  * Interface that alll the serializers have to implement.
  *
  */
 public interface OutputArchive {
-    public void writeByte(byte b, String tag) throws IOException;
-    public void writeBool(boolean b, String tag) throws IOException;
-    public void writeInt(int i, String tag) throws IOException;
-    public void writeLong(long l, String tag) throws IOException;
-    public void writeFloat(float f, String tag) throws IOException;
-    public void writeDouble(double d, String tag) throws IOException;
-    public void writeString(String s, String tag) throws IOException;
-    public void writeBuffer(byte buf[], String tag)
-        throws IOException;
-    public void writeRecord(Command r, String tag) throws IOException;
-    public void startRecord(Command r, String tag) throws IOException;
-    public void endRecord(Command r, String tag) throws IOException;
-    public void startVector(List v, String tag) throws IOException;
-    public void endVector(List v, String tag) throws IOException;
-    public void startMap(TreeMap v, String tag) throws IOException;
-    public void endMap(TreeMap v, String tag) throws IOException;
-
+    public void writeByte(byte b) throws IOException;
+    public void writeBool(boolean b) throws IOException;
+    public void writeChar(char c) throws IOException;
+    public void writeShort(int s) throws IOException;
+    public void writeInt(int i) throws IOException;
+    public void writeUInt(long i) throws IOException;
+    public void writeLong(long l) throws IOException;
+    public void writeFloat(float f) throws IOException;
+    public void writeDouble(double d) throws IOException;
+    public void writeString(String s) throws IOException;
+    public void writeBuffer(byte buf[]) throws IOException;
 }

@@ -34,48 +34,41 @@ public class BinaryInputArchive implements InputArchive {
         return new BinaryInputArchive(new DataInputStream(strm));
     }
     
-/*    static private class BinaryIndex implements Index {
-        private int nelems;
-        BinaryIndex(int nelems) {
-            this.nelems = nelems;
-        }
-        public boolean done() {
-            return (nelems <= 0);
-        }
-        public void incr() {
-            nelems--;
-        }
-    }*/
     /** Creates a new instance of BinaryInputArchive */
     public BinaryInputArchive(DataInput in) {
         this.in = in;
     }
     
-    public byte readByte(String tag) throws IOException {
+    public byte readByte() throws IOException {
         return in.readByte();
     }
     
-    public boolean readBool(String tag) throws IOException {
+    public boolean readBool() throws IOException {
         return in.readBoolean();
     }
-    
-    public int readInt(String tag) throws IOException {
+    public char readChar() throws IOException{
+    	return in.readChar();
+    }
+    public short readShort() throws IOException{
+    	return in.readShort();
+    }
+    public int readInt() throws IOException {
         return in.readInt();
     }
     
-    public long readLong(String tag) throws IOException {
+    public long readLong() throws IOException {
         return in.readLong();
     }
     
-    public float readFloat(String tag) throws IOException {
+    public float readFloat() throws IOException {
         return in.readFloat();
     }
     
-    public double readDouble(String tag) throws IOException {
+    public double readDouble() throws IOException {
         return in.readDouble();
     }
     
-    public String readString(String tag) throws IOException {
+    public String readString() throws IOException {
     	int len = in.readInt();
     	if (len == -1) return null;
         checkLength(len);
@@ -86,38 +79,14 @@ public class BinaryInputArchive implements InputArchive {
     
     static public final int maxBuffer = Integer.getInteger("jute.maxbuffer", 0xfffff);
 
-    public byte[] readBuffer(String tag) throws IOException {
-        int len = readInt(tag);
+    public byte[] readBuffer() throws IOException {
+        int len = readInt();
         if (len == -1) return null;
         checkLength(len);
         byte[] arr = new byte[len];
         in.readFully(arr);
         return arr;
-    }
-    
-    public void readRecord(Command r, String tag) throws IOException {
-        r.deserialize(this, tag);
-    }
-    
-    public void startRecord(String tag) throws IOException {}
-    
-    public void endRecord(String tag) throws IOException {}
-    
-   /* public Index startVector(String tag) throws IOException {
-        int len = readInt(tag);
-        if (len == -1) {
-        	return null;
-        }
-		return new BinaryIndex(len);
-    }
-    
-    public void endVector(String tag) throws IOException {}
-    
-    public Index startMap(String tag) throws IOException {
-        return new BinaryIndex(readInt(tag));
-    }*/
-    
-    public void endMap(String tag) throws IOException {}
+    }    
 
     // Since this is a rough sanity check, add some padding to maxBuffer to
     // make up for extra fields, etc. (otherwise e.g. clients may be able to

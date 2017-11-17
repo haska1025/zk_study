@@ -23,8 +23,6 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
-import java.util.List;
-import java.util.TreeMap;
 
 /**
  *
@@ -43,27 +41,35 @@ public class BinaryOutputArchive implements OutputArchive {
         this.out = out;
     }
     
-    public void writeByte(byte b, String tag) throws IOException {
+    public void writeByte(byte b) throws IOException {
         out.writeByte(b);
     }
     
-    public void writeBool(boolean b, String tag) throws IOException {
+    public void writeBool(boolean b) throws IOException {
         out.writeBoolean(b);
     }
-    
-    public void writeInt(int i, String tag) throws IOException {
+    public void writeChar(char c) throws IOException{
+    	out.writeChar(c);
+    }
+    public void writeShort(int s) throws IOException{
+    	out.writeShort(s);
+    }
+    public void writeUInt(long i) throws IOException{
+    	out.writeInt((int)i);
+    }
+    public void writeInt(int i) throws IOException {
         out.writeInt(i);
     }
     
-    public void writeLong(long l, String tag) throws IOException {
+    public void writeLong(long l) throws IOException {
         out.writeLong(l);
     }
     
-    public void writeFloat(float f, String tag) throws IOException {
+    public void writeFloat(float f) throws IOException {
         out.writeFloat(f);
     }
     
-    public void writeDouble(double d, String tag) throws IOException {
+    public void writeDouble(double d) throws IOException {
         out.writeDouble(d);
     }
     
@@ -99,17 +105,17 @@ public class BinaryOutputArchive implements OutputArchive {
         return bb;
     }
 
-    public void writeString(String s, String tag) throws IOException {
+    public void writeString(String s) throws IOException {
         if (s == null) {
-            writeInt(-1, "len");
+            writeInt(-1);
             return;
         }
         ByteBuffer bb = stringToByteBuffer(s);
-        writeInt(bb.remaining(), "len");
+        writeInt(bb.remaining());
         out.write(bb.array(), bb.position(), bb.limit());
     }
 
-    public void writeBuffer(byte barr[], String tag)
+    public void writeBuffer(byte barr[])
     throws IOException {
     	if (barr == null) {
     		out.writeInt(-1);
@@ -118,29 +124,5 @@ public class BinaryOutputArchive implements OutputArchive {
     	out.writeInt(barr.length);
         out.write(barr);
     }
-    
-    public void writeRecord(Command r, String tag) throws IOException {
-        r.serialize(this, tag);
-    }
-    
-    public void startRecord(Command r, String tag) throws IOException {}
-    
-    public void endRecord(Command r, String tag) throws IOException {}
-    
-    public void startVector(List v, String tag) throws IOException {
-    	if (v == null) {
-    		writeInt(-1, tag);
-    		return;
-    	}
-        writeInt(v.size(), tag);
-    }
-    
-    public void endVector(List v, String tag) throws IOException {}
-    
-    public void startMap(TreeMap v, String tag) throws IOException {
-        writeInt(v.size(), tag);
-    }
-    
-    public void endMap(TreeMap v, String tag) throws IOException {}
     
 }
